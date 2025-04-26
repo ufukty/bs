@@ -1,0 +1,31 @@
+package bs
+
+import (
+	"flag"
+	"fmt"
+	"net/http"
+	"os"
+)
+
+type Args struct {
+	Port      int
+	Directory string
+}
+
+func Main() error {
+	args := &Args{}
+	flag.IntVar(&args.Port, "p", 8080, "Port")
+	flag.StringVar(&args.Directory, "d", "", "Root of public directory")
+	flag.Parse()
+
+	http.ListenAndServe(fmt.Sprintf(":%d", args.Port), http.FileServer(http.Dir(args.Directory)))
+
+	return nil
+}
+
+func main() {
+	if err := Main(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
