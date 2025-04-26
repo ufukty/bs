@@ -22,6 +22,8 @@ they default to `8080` and `.` so most of the time:
 bs
 ```
 
+Then go to [127.0.0.1:8080] in your browser.
+
 ## License
 
 MIT
