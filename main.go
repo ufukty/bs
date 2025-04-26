@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/ufukty/bs/internal/middlewares/with"
+	"github.com/ufukty/bs/internal/middlewares/without"
 )
 
 type Args struct {
@@ -15,10 +18,10 @@ type Args struct {
 func Main() error {
 	args := &Args{}
 	flag.IntVar(&args.Port, "p", 8080, "Port")
-	flag.StringVar(&args.Directory, "d", "", "Root of public directory")
+	flag.StringVar(&args.Directory, "d", ".", "Root of public directory")
 	flag.Parse()
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", args.Port), http.FileServer(http.Dir(args.Directory)))
+	err := http.ListenAndServe(fmt.Sprintf(":%d", args.Port), without.Panic(with.Logging(http.FileServer(http.Dir(args.Directory)))))
 	if err != nil {
 		return fmt.Errorf("listen and serve: %w", err)
 	}
