@@ -21,7 +21,7 @@ func Main() error {
 	flag.StringVar(&args.Directory, "d", ".", "Root of public directory")
 	flag.Parse()
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", args.Port), without.Panic(with.Logging(http.FileServer(http.Dir(args.Directory)))))
+	err := http.ListenAndServe(fmt.Sprintf(":%d", args.Port), with.Logging(without.Panic(http.FileServer(http.Dir(args.Directory)))))
 	if err != nil {
 		return fmt.Errorf("listen and serve: %w", err)
 	}
