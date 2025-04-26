@@ -21,10 +21,6 @@ func (rw *responseWriter) WriteHeader(statusCode int) {
 
 var _ http.ResponseWriter = (*responseWriter)(nil)
 
-var contains = map[string][]int{
-	"location": {103, 201, 301, 302, 303, 307, 308},
-}
-
 func summarizeRequest(r *http.Request) string {
 	return fmt.Sprintf("%s %s %s (%s, %s)",
 		colors.Green(r.Method),
