@@ -10,8 +10,12 @@ import (
 )
 
 func Main() error {
+	dir := "."
+	if len(os.Args) > 1 {
+		dir = os.Args[1]
+	}
 	err := http.ListenAndServe(fmt.Sprintf(":%d", 8080),
-		with.Logging(without.Panic(http.FileServer(http.Dir(".")))),
+		with.Logging(without.Panic(http.FileServer(http.Dir(dir)))),
 	)
 	if err != nil {
 		return fmt.Errorf("listen and serve: %w", err)
